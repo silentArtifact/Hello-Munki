@@ -1,0 +1,4 @@
+%everyone ALL=(ALL) NOPASSWD: /usr/local/hello_it/*
+%everyone ALL=(ALL) NOPASSWD: /usr/local/munki/managedsoftwareupdate
+cfaadmin ALL=(ALL) NOPASSWD: /usr/local/hello_it_admin/*
+cfaitbuild ALL=(ALL) NOPASSWD: /usr/local/hello_it_admin/*
