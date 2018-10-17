@@ -26,13 +26,14 @@ if [ "$SURETY" = "button returned:Yes" ]; then
 	defaults write /Library/Preferences/ManagedInstalls ClientIdentifier $manifestName
 	defaults write /private/var/root/Library/Preferences/ManagedInstalls AdditionalHttpHeaders -array "Authorization: Basic c3ZjX2xvY2FsbXVua2lhdXRoOlVyNWJKQH40TVY="
 
-    # Ask if the user wants munki to run and install anything in the newly-
-    # updated manifest.
-    SURETY="$(osascript -e 'display dialog "Download and install from new manifest?" buttons {"Yes", "No"} default button "Yes" with icon caution')"
-    if [ "$SURETY" = "button returned:Yes" ]; then
+    # Ask if the user wants to run munki now or on next boot.
+    SURETY="$(osascript -e 'display dialog "Run munki now or next boot?" buttons {"Now", "Next Boot"} default button "Now" with icon caution')"
+    if [ "$SURETY" = "button returned:Now" ]; then
         open munki://updates
-        sudo /usr/local/munki/managedsoftwareupdate -q
-        sudo /usr/local/munki/managedsoftwareupdate -q --installonly
+        sudo /usr/local/munki/managedsoftwareupdate -q --munkipkgsonly
+        sudo /usr/local/munki/managedsoftwareupdate -q --installonly --munkipkgsonly
+    else
+        sudo /usr/local/hello_it_admin/run_munki_at_startup_once.sh
     fi
 fi
 
